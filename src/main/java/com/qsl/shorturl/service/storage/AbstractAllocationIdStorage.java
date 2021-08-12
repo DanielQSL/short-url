@@ -24,7 +24,7 @@ public abstract class AbstractAllocationIdStorage implements InitializingBean {
      * @param longUrl  原链接（长链接）
      * @return 是否保存成功
      */
-    public abstract boolean saveLongAndShortMap(String shortUri, String longUrl);
+    public abstract void saveLongAndShortMap(String shortUri, String longUrl);
 
     /**
      * 获取原网址

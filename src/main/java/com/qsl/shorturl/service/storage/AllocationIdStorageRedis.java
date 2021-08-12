@@ -39,9 +39,8 @@ public class AllocationIdStorageRedis extends AbstractAllocationIdStorage {
     }
 
     @Override
-    public boolean saveLongAndShortMap(String shortUri, String longUrl) {
+    public void saveLongAndShortMap(String shortUri, String longUrl) {
         redisTemplate.opsForValue().set(SHORT_LONG_MAP_PREFIX + shortUri, longUrl, 24, TimeUnit.HOURS);
-        return true;
     }
 
     @Override
