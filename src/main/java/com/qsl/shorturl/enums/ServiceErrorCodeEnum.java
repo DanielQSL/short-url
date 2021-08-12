@@ -14,6 +14,9 @@ public enum ServiceErrorCodeEnum implements BaseCommonError {
     // ========== 发号 ==========
     GENERATE_ID_FAILED(401_01_0000, "生成ID失败"),
 
+    // ========== 重定向 ==========
+    VISIT_URL_NOT_EXIST(401_02_0000, "抱歉，您访问的页面不存在！"),
+
     ;
 
     private final Integer code;

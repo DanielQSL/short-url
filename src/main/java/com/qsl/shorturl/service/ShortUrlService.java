@@ -18,4 +18,12 @@ public interface ShortUrlService {
      */
     String createShortUrl(ShortUrlDTO shortUrlDTO);
 
+    /**
+     * 访问短网址
+     *
+     * @param shortUri 短链接
+     * @return 原网址
+     */
+    String visitShortUrl(String shortUri);
+
 }

@@ -3,9 +3,12 @@ package com.qsl.shorturl.service.strategy;
 import com.qsl.shorturl.enums.AllocationIdStrategyEnum;
 import com.qsl.shorturl.enums.ServiceErrorCodeEnum;
 import com.qsl.shorturl.exception.BizException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 基于Redis的发号策略
@@ -21,6 +24,8 @@ public class RedisAllocationIdStrategy extends AbstractAllocationIdStrategy {
 
     private static final String SHORT_URL_SEED = "short_url_seed";
 
+    private static final String SHORT_LONG_MAP_PREFIX = "short_long_map:";
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -31,6 +36,21 @@ public class RedisAllocationIdStrategy extends AbstractAllocationIdStrategy {
             throw new BizException(ServiceErrorCodeEnum.GENERATE_ID_FAILED);
         }
         return shortUrlSeed;
+    }
+
+    @Override
+    public boolean saveLongAndShotUrlMap(String shortUri, String longUrl) {
+        redisTemplate.opsForValue().set(SHORT_LONG_MAP_PREFIX + shortUri, longUrl, 24, TimeUnit.HOURS);
+        return true;
+    }
+
+    @Override
+    public String getSourceUrlByUri(String shortUri) {
+        String sourceUrl = (String) redisTemplate.opsForValue().get(SHORT_LONG_MAP_PREFIX + shortUri);
+        if (StringUtils.isBlank(sourceUrl)) {
+            throw new BizException(ServiceErrorCodeEnum.VISIT_URL_NOT_EXIST);
+        }
+        return sourceUrl;
     }
 
     @Override
