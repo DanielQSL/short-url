@@ -1,14 +1,14 @@
-package com.qsl.shorturl.service.strategy;
+package com.qsl.shorturl.service.storage;
 
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * 发号策略 抽象层
+ * 发号器存储抽象类
  *
  * @author qianshuailong
  * @date 2021/8/12
  */
-public abstract class AbstractAllocationIdStrategy implements InitializingBean {
+public abstract class AbstractAllocationIdStorage implements InitializingBean {
 
     /**
      * 生成ID
@@ -24,14 +24,21 @@ public abstract class AbstractAllocationIdStrategy implements InitializingBean {
      * @param longUrl  原链接（长链接）
      * @return 是否保存成功
      */
-    public abstract boolean saveLongAndShotUrlMap(String shortUri, String longUrl);
+    public abstract boolean saveLongAndShortMap(String shortUri, String longUrl);
 
     /**
-     * 根据短链接获取原网址
+     * 获取原网址
      *
      * @param shortUri 短链接
      * @return 原网址
      */
-    public abstract String getSourceUrlByUri(String shortUri);
+    public abstract String getSourceUrl(String shortUri);
+
+    /**
+     * 清除短链接
+     *
+     * @param shortUri 短链接
+     */
+    public abstract void cleanShortUri(String shortUri);
 
 }

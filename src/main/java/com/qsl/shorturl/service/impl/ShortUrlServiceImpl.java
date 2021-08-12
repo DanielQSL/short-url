@@ -5,8 +5,8 @@ import com.qsl.shorturl.dto.ShortUrlDTO;
 import com.qsl.shorturl.enums.AllocationIdStrategyEnum;
 import com.qsl.shorturl.service.AllocationIdService;
 import com.qsl.shorturl.service.ShortUrlService;
-import com.qsl.shorturl.service.strategy.AbstractAllocationIdStrategy;
-import com.qsl.shorturl.service.strategy.AllocationIdStrategyFactory;
+import com.qsl.shorturl.service.storage.AbstractAllocationIdStorage;
+import com.qsl.shorturl.service.storage.AllocationIdStorageFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,8 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         // 将数字转换为62进制字符
         String shortUri = to62BaseStr(shortUrlId);
         // 保存长短链接映射关系
-        AbstractAllocationIdStrategy allocationIdStrategy = AllocationIdStrategyFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
-        allocationIdStrategy.saveLongAndShotUrlMap(shortUri, shortUrlDTO.getSourceUrl());
+        AbstractAllocationIdStorage allocationIdStrategy = AllocationIdStorageFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
+        allocationIdStrategy.saveLongAndShortMap(shortUri, shortUrlDTO.getSourceUrl());
         return CommonConstant.SHORT_URL_PREFIX + shortUri;
     }
 
@@ -73,8 +73,8 @@ public class ShortUrlServiceImpl implements ShortUrlService {
 
     @Override
     public String visitShortUrl(String shortUri) {
-        AbstractAllocationIdStrategy allocationIdStrategy = AllocationIdStrategyFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
-        return allocationIdStrategy.getSourceUrlByUri(shortUri);
+        AbstractAllocationIdStorage allocationIdStrategy = AllocationIdStorageFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
+        return allocationIdStrategy.getSourceUrl(shortUri);
     }
 
 }

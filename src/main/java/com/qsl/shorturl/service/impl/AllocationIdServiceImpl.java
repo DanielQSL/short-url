@@ -2,8 +2,8 @@ package com.qsl.shorturl.service.impl;
 
 import com.qsl.shorturl.enums.AllocationIdStrategyEnum;
 import com.qsl.shorturl.service.AllocationIdService;
-import com.qsl.shorturl.service.strategy.AbstractAllocationIdStrategy;
-import com.qsl.shorturl.service.strategy.AllocationIdStrategyFactory;
+import com.qsl.shorturl.service.storage.AbstractAllocationIdStorage;
+import com.qsl.shorturl.service.storage.AllocationIdStorageFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class AllocationIdServiceImpl implements AllocationIdService {
 
     @Override
     public long generateId() {
-        AbstractAllocationIdStrategy allocationIdStrategy = AllocationIdStrategyFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
+        AbstractAllocationIdStorage allocationIdStrategy = AllocationIdStorageFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
         return allocationIdStrategy.generateId();
     }
 

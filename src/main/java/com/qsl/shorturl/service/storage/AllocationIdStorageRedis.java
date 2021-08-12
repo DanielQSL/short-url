@@ -1,4 +1,4 @@
-package com.qsl.shorturl.service.strategy;
+package com.qsl.shorturl.service.storage;
 
 import com.qsl.shorturl.enums.AllocationIdStrategyEnum;
 import com.qsl.shorturl.enums.ServiceErrorCodeEnum;
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2021/8/12
  */
 @Component
-public class RedisAllocationIdStrategy extends AbstractAllocationIdStrategy {
+public class AllocationIdStorageRedis extends AbstractAllocationIdStorage {
 
     private static final String SHORT_URL_SEED = "short_url_seed";
 
@@ -39,13 +39,13 @@ public class RedisAllocationIdStrategy extends AbstractAllocationIdStrategy {
     }
 
     @Override
-    public boolean saveLongAndShotUrlMap(String shortUri, String longUrl) {
+    public boolean saveLongAndShortMap(String shortUri, String longUrl) {
         redisTemplate.opsForValue().set(SHORT_LONG_MAP_PREFIX + shortUri, longUrl, 24, TimeUnit.HOURS);
         return true;
     }
 
     @Override
-    public String getSourceUrlByUri(String shortUri) {
+    public String getSourceUrl(String shortUri) {
         String sourceUrl = (String) redisTemplate.opsForValue().get(SHORT_LONG_MAP_PREFIX + shortUri);
         if (StringUtils.isBlank(sourceUrl)) {
             throw new BizException(ServiceErrorCodeEnum.VISIT_URL_NOT_EXIST);
@@ -54,8 +54,13 @@ public class RedisAllocationIdStrategy extends AbstractAllocationIdStrategy {
     }
 
     @Override
+    public void cleanShortUri(String shortUri) {
+        redisTemplate.delete(SHORT_LONG_MAP_PREFIX + shortUri);
+    }
+
+    @Override
     public void afterPropertiesSet() throws Exception {
-        AllocationIdStrategyFactory.register(AllocationIdStrategyEnum.REDIS.getCode(), this);
+        AllocationIdStorageFactory.register(AllocationIdStrategyEnum.REDIS.getCode(), this);
     }
 
 }
