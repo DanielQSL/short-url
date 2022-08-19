@@ -30,7 +30,7 @@ public class AllocationIdStorageRedis extends AbstractAllocationIdStorage {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public long generateId() {
+    public Long generateId() {
         Long shortUrlSeed = redisTemplate.opsForValue().increment(SHORT_URL_SEED);
         if (shortUrlSeed == null) {
             throw new BizException(ServiceErrorCodeEnum.GENERATE_ID_FAILED);

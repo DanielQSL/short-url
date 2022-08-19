@@ -15,14 +15,13 @@ public abstract class AbstractAllocationIdStorage implements InitializingBean {
      *
      * @return ID
      */
-    public abstract long generateId();
+    public abstract Long generateId();
 
     /**
      * 保存长短链接映射关系
      *
      * @param shortUri 短链接
      * @param longUrl  原链接（长链接）
-     * @return 是否保存成功
      */
     public abstract void saveLongAndShortMap(String shortUri, String longUrl);
 

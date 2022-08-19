@@ -13,6 +13,6 @@ public interface AllocationIdService {
      *
      * @return ID
      */
-    long generateId();
+    Long generateId();
 
 }

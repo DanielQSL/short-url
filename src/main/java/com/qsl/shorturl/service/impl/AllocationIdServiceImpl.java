@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class AllocationIdServiceImpl implements AllocationIdService {
 
     @Override
-    public long generateId() {
+    public Long generateId() {
         AbstractAllocationIdStorage allocationIdStrategy = AllocationIdStorageFactory.getInvokeStrategy(AllocationIdStrategyEnum.REDIS.getCode());
         return allocationIdStrategy.generateId();
     }

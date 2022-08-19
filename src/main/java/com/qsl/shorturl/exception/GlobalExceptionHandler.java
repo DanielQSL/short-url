@@ -1,8 +1,7 @@
-package com.qsl.shorturl.handler;
+package com.qsl.shorturl.exception;
 
 import com.qsl.shorturl.common.CommonResponse;
 import com.qsl.shorturl.enums.ResponseCodeEnum;
-import com.qsl.shorturl.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
